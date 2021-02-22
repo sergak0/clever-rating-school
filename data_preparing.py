@@ -56,16 +56,19 @@ def get_rating(all_text) :
 
     with open("vocab2index.json", encoding='utf-8') as fh:
         vocab2index = json.load(fh)
+    text_res = []
     ru_prepared = data_prepare(all_text, ru = True)
     ans = []
-    for text in ru_prepared :
-        ans.append(encode_sentence(text.split(), vocab2index))
+    for ind, text in enumerate(ru_prepared) :
+        if text != "" :
+            text_res.append(all_text[ind])
+            ans.append(encode_sentence(text.split(), vocab2index))
     vocab_size = 24582
-    return get_seq_rating(ans, vocab_size) + 1
+    return (text_res, get_seq_rating(ans, vocab_size) + 1)
 
 if __name__ == '__main__' :
-    text = ['отличный телефон, понравился и мне и все друзьям, прочный, долго держит зарядку и имеет хорошую камеру, в общем остался доволен',
-            'Достоинства: Экран \n\nНедостатки: Плохое качество корпуса,через пол года окантовка начела осыпатся,и отремонтировать не реально,нет в продаже',
+    text = ['12121',
+            'Достоинства: Экран и хорошая батерейка',
             'полная херня, никогда не покупайте здесь. Очень тормозит, постоянно приходится перезагружать, в общем отстой'
             ]
     print(get_rating(text))
